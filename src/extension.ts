@@ -224,6 +224,8 @@ export function activate(context: vscode.ExtensionContext) {
   let lastData: UsageData | null = null;
   let lastError: string | null = null;
   let refreshTimer: ReturnType<typeof setInterval> | null = null;
+  let backoffTimer: ReturnType<typeof setTimeout> | null = null;
+  let backoffMs = 0;
 
   // ── Render ──────────────────────────────────────────────────────────────────
   function render() {
@@ -250,6 +252,10 @@ export function activate(context: vscode.ExtensionContext) {
 
   // ── Fetch & update ──────────────────────────────────────────────────────────
   async function refresh() {
+    // Skip if in backoff period
+    if (backoffTimer) {
+      return;
+    }
     item.text = "$(sync~spin) Claude…";
     const token = getAccessToken();
     if (!token) {
@@ -261,13 +267,22 @@ export function activate(context: vscode.ExtensionContext) {
     try {
       lastData = await fetchUsage(token);
       lastError = null;
+      backoffMs = 0; // reset backoff on success
     } catch (e: unknown) {
       const msg = e instanceof Error ? e.message : String(e);
-      lastError = msg.startsWith("HTTP 401")
-        ? "Auth error — re-login to Claude Code"
-        : msg.startsWith("HTTP 429")
-        ? "Rate limited — retrying soon"
-        : "Fetch failed";
+      if (msg.startsWith("HTTP 429")) {
+        // Exponential backoff: 5m → 10m → 20m → cap at 60m
+        backoffMs = backoffMs === 0 ? 5 * 60_000 : Math.min(backoffMs * 2, 60 * 60_000);
+        lastError = `Rate limited — retrying in ${Math.round(backoffMs / 60_000)}m`;
+        backoffTimer = setTimeout(() => {
+          backoffTimer = null;
+          refresh();
+        }, backoffMs);
+      } else {
+        lastError = msg.startsWith("HTTP 401")
+          ? "Auth error — re-login to Claude Code"
+          : "Fetch failed";
+      }
     }
     render();
   }

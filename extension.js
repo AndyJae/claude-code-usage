@@ -214,6 +214,8 @@ function activate(context) {
     let lastData = null;
     let lastError = null;
     let refreshTimer = null;
+    let backoffTimer = null;
+    let backoffMs = 0;
     // ── Render ──────────────────────────────────────────────────────────────────
     function render() {
         if (lastError) {
@@ -234,6 +236,8 @@ function activate(context) {
     }
     // ── Fetch & update ──────────────────────────────────────────────────────────
     async function refresh() {
+        if (backoffTimer)
+            return;
         item.text = "$(sync~spin) Claude…";
         const token = getAccessToken();
         if (!token) {
@@ -245,12 +249,23 @@ function activate(context) {
         try {
             lastData = await fetchUsage(token);
             lastError = null;
+            backoffMs = 0;
         }
         catch (e) {
             const msg = e instanceof Error ? e.message : String(e);
-            lastError = msg.startsWith("HTTP 401")
-                ? "Auth error — re-login to Claude Code"
-                : "Fetch failed";
+            if (msg.startsWith("HTTP 429")) {
+                backoffMs = backoffMs === 0 ? 5 * 60000 : Math.min(backoffMs * 2, 60 * 60000);
+                lastError = `Rate limited — retrying in ${Math.round(backoffMs / 60000)}m`;
+                backoffTimer = setTimeout(() => {
+                    backoffTimer = null;
+                    refresh();
+                }, backoffMs);
+            }
+            else {
+                lastError = msg.startsWith("HTTP 401")
+                    ? "Auth error — re-login to Claude Code"
+                    : "Fetch failed";
+            }
         }
         render();
     }

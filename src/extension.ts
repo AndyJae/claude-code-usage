@@ -147,8 +147,11 @@ function timeUntil(isoString: string): string {
   const ms = new Date(isoString).getTime() - Date.now();
   if (ms <= 0) return "resetting…";
   const totalMin = Math.floor(ms / 60_000);
-  const h = Math.floor(totalMin / 60);
+  const d = Math.floor(totalMin / 1440);
+  const h = Math.floor((totalMin % 1440) / 60);
   const m = totalMin % 60;
+  if (d > 0)
+    return `${d}d${h.toString().padStart(2, "0")}h${m.toString().padStart(2, "0")}m`;
   return h > 0 ? `${h}h${m.toString().padStart(2, "0")}m` : `${m}m`;
 }
 
@@ -293,7 +296,7 @@ export function activate(context: vscode.ExtensionContext) {
       clearInterval(refreshTimer);
     }
     const intervalMs =
-      (config().get<number>("refreshIntervalSeconds") ?? 60) * 1000;
+      (config().get<number>("refreshIntervalSeconds") ?? 300) * 1000;
     refreshTimer = setInterval(refresh, intervalMs);
     context.subscriptions.push({ dispose: () => clearInterval(refreshTimer!) });
   }

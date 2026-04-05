@@ -152,8 +152,11 @@ function timeUntil(isoString) {
     if (ms <= 0)
         return "resetting…";
     const totalMin = Math.floor(ms / 60000);
-    const h = Math.floor(totalMin / 60);
+    const d = Math.floor(totalMin / 1440);
+    const h = Math.floor((totalMin % 1440) / 60);
     const m = totalMin % 60;
+    if (d > 0)
+        return `${d}d${h.toString().padStart(2, "0")}h${m.toString().padStart(2, "0")}m`;
     return h > 0 ? `${h}h${m.toString().padStart(2, "0")}m` : `${m}m`;
 }
 function formatWindow(label, w) {

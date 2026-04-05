@@ -1,6 +1,6 @@
 {
   "name": "claudecode-usage",
-  "displayName": "Claude Code Usage Monitor",
+  "displayName": "AndJaeClaudeUsage",
   "description": "Shows your Claude Pro/Max quota usage in the status bar — 5-hour and 7-day rolling windows as live progress bars with reset countdown. Requires Claude Code CLI to be installed and authenticated.",
   "version": "1.0.0",
   "publisher": "AndJae",

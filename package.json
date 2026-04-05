@@ -1,0 +1,55 @@
+{
+  "name": "claude-usage-monitor",
+  "displayName": "Claude Code Usage Monitor",
+  "description": "Shows Claude Code 5h/7d usage limits in the VSCode status bar",
+  "version": "1.0.0",
+  "publisher": "local",
+  "engines": { "vscode": "^1.85.0" },
+  "categories": ["Other"],
+  "activationEvents": ["onStartupFinished"],
+  "main": "./out/extension.js",
+  "contributes": {
+    "commands": [
+      {
+        "command": "claudeUsage.refresh",
+        "title": "Claude Usage: Refresh Now"
+      },
+      {
+        "command": "claudeUsage.toggleMode",
+        "title": "Claude Usage: Toggle View (5h / 7d / Both)"
+      }
+    ],
+    "configuration": {
+      "title": "Claude Usage Monitor",
+      "properties": {
+        "claudeUsage.refreshIntervalSeconds": {
+          "type": "number",
+          "default": 60,
+          "minimum": 10,
+          "description": "How often to refresh usage data (seconds)"
+        },
+        "claudeUsage.defaultMode": {
+          "type": "string",
+          "enum": ["5h", "7d", "both"],
+          "default": "both",
+          "description": "Which limit to show in status bar: 5h window, 7d window, or both"
+        },
+        "claudeUsage.credentialsPath": {
+          "type": "string",
+          "default": "",
+          "description": "Override path to .credentials.json (leave empty for auto-detect)"
+        }
+      }
+    }
+  },
+  "scripts": {
+    "compile": "tsc -p ./",
+    "watch": "tsc -watch -p ./",
+    "package": "vsce package"
+  },
+  "devDependencies": {
+    "@types/node": "^20.0.0",
+    "@types/vscode": "^1.85.0",
+    "typescript": "^5.3.0"
+  }
+}

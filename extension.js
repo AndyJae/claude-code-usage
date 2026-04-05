@@ -259,7 +259,7 @@ function activate(context) {
         if (refreshTimer) {
             clearInterval(refreshTimer);
         }
-        const intervalMs = (config().get("refreshIntervalSeconds") ?? 60) * 1000;
+        const intervalMs = (config().get("refreshIntervalSeconds") ?? 300) * 1000;
         refreshTimer = setInterval(refresh, intervalMs);
         context.subscriptions.push({ dispose: () => clearInterval(refreshTimer) });
     }

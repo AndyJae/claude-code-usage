@@ -1,7 +1,7 @@
 {
   "name": "claude-usage-monitor",
   "displayName": "Claude Code Usage Monitor",
-  "description": "Shows Claude Code 5h/7d usage limits in the VSCode status bar",
+  "description": "Shows your Claude Pro/Max quota usage in the status bar — 5-hour and 7-day rolling windows as live progress bars with reset countdown. Requires Claude Code CLI to be installed and authenticated.",
   "version": "1.0.0",
   "publisher": "local",
   "engines": { "vscode": "^1.85.0" },

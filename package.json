@@ -2,7 +2,7 @@
   "name": "claudecode-usage",
   "displayName": "ClaudeProUsage",
   "description": "Shows your Claude Pro/Max quota usage in the status bar — 5-hour and 7-day rolling windows as live progress bars with reset countdown. Requires Claude Code CLI to be installed and authenticated.",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "publisher": "AndJae",
   "repository": {
     "type": "git",

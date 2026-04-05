@@ -10,7 +10,7 @@ VSCode extension that shows your Claude Code usage limits live in the status bar
 
 ## What it does
 
-The extension reads your locally stored Claude Code OAuth token and calls the Anthropic API every 60 seconds (configurable) to fetch your current utilisation for both quota windows. The result is shown as a progress bar in the VSCode status bar at the bottom right.
+The extension reads your locally stored Claude Code OAuth token and calls the Anthropic API every 5 minutes (configurable) to fetch your current utilisation for both quota windows. The result is shown as a progress bar in the VSCode status bar at the bottom right.
 
 - **5-hour window** — short-term rolling limit (resets 5 h after your first message)
 - **7-day window** — weekly rolling limit (resets 7 days after your first message)
@@ -95,7 +95,7 @@ Open **Settings** (`Ctrl+,`) and search for `claudeUsage`.
 
 | Setting | Default | Description |
 |---------|---------|-------------|
-| `claudeUsage.refreshIntervalSeconds` | `60` | How often to poll the API (minimum: 10 s) |
+| `claudeUsage.refreshIntervalSeconds` | `300` | How often to poll the API in seconds (minimum: 60) |
 | `claudeUsage.defaultMode` | `"both"` | What to show: `"5h"`, `"7d"`, or `"both"` |
 | `claudeUsage.credentialsPath` | `""` | Override the credentials file path (leave empty for auto-detect) |
 
@@ -119,6 +119,9 @@ Open the Command Palette (`Ctrl+Shift+P`) and type:
 
 **Status bar shows "Auth error — re-login to Claude Code"**  
 → The stored token has expired. Run `claude auth login` again.
+
+**Status bar shows "Rate limited — retrying in Xm"**  
+→ The Anthropic usage API has a rate limit. The extension backs off automatically (5 min → 10 min → 20 min → max 60 min) and retries on its own. No action needed.
 
 **Status bar shows "Fetch failed"**  
 → Network error or temporary API issue. The extension will retry on the next interval.

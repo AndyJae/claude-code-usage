@@ -265,6 +265,8 @@ export function activate(context: vscode.ExtensionContext) {
       const msg = e instanceof Error ? e.message : String(e);
       lastError = msg.startsWith("HTTP 401")
         ? "Auth error — re-login to Claude Code"
+        : msg.startsWith("HTTP 429")
+        ? "Rate limited — retrying soon"
         : "Fetch failed";
     }
     render();

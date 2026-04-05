@@ -247,7 +247,9 @@ function activate(context) {
             const msg = e instanceof Error ? e.message : String(e);
             lastError = msg.startsWith("HTTP 401")
                 ? "Auth error — re-login to Claude Code"
-                : "Fetch failed";
+                : msg.startsWith("HTTP 429")
+                    ? "Rate limited — retrying soon"
+                    : "Fetch failed";
         }
         render();
     }

@@ -2,16 +2,31 @@
   "name": "claudecode-usage",
   "displayName": "ClaudeProUsage",
   "description": "Shows your Claude Pro/Max quota usage in the status bar — 5-hour and 7-day rolling windows as live progress bars with reset countdown. Requires Claude Code CLI to be installed and authenticated.",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "publisher": "AndJae",
   "repository": {
     "type": "git",
     "url": "https://github.com/AndyJae/claude-code-usage"
   },
-  "engines": { "vscode": "^1.85.0" },
-  "keywords": ["claude", "claude-code", "anthropic", "usage", "quota", "monitor", "status-bar", "vscode-extension"],
-  "categories": ["Other"],
-  "activationEvents": ["onStartupFinished"],
+  "engines": {
+    "vscode": "^1.85.0"
+  },
+  "keywords": [
+    "claude",
+    "claude-code",
+    "anthropic",
+    "usage",
+    "quota",
+    "monitor",
+    "status-bar",
+    "vscode-extension"
+  ],
+  "categories": [
+    "Other"
+  ],
+  "activationEvents": [
+    "onStartupFinished"
+  ],
   "main": "./extension.js",
   "contributes": {
     "commands": [
@@ -35,7 +50,11 @@
         },
         "claudeUsage.defaultMode": {
           "type": "string",
-          "enum": ["5h", "7d", "both"],
+          "enum": [
+            "5h",
+            "7d",
+            "both"
+          ],
           "default": "both",
           "description": "Which limit to show in status bar: 5h window, 7d window, or both"
         },

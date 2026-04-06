@@ -49,17 +49,21 @@ Colour coding:
 
 ## Installation
 
-### Option A — from a `.vsix` file (recommended)
+### Option A — VSCode Marketplace (easiest)
+
+Search for **ClaudeProUsage** in the Extensions view (`Ctrl+Shift+X`), or install directly via the [VSCode Marketplace](https://marketplace.visualstudio.com/items?itemName=AndJae.claudecode-usage).
+
+### Option B — from a `.vsix` file
 
 If you already have a built `.vsix` file:
 
 ```bash
-code --install-extension claude-usage-monitor-1.0.0.vsix
+code --install-extension claude-usage-monitor-1.0.2.vsix
 ```
 
 Or via the VSCode UI: **Extensions → ··· → Install from VSIX…**
 
-### Option B — build from source (requires Node.js ≥ 20)
+### Option C — build from source (requires Node.js ≥ 20)
 
 ```bash
 git clone <this-repo>
@@ -67,10 +71,10 @@ cd claude-usage
 npm install
 npm run compile
 npx @vscode/vsce package --no-yarn
-code --install-extension claude-usage-monitor-1.0.0.vsix
+code --install-extension claude-usage-monitor-1.0.2.vsix
 ```
 
-### Option C — manual folder install (Node.js 16 / no vsce)
+### Option D — manual folder install (Node.js 16 / no vsce)
 
 1. Install dependencies and compile:
    ```bash
@@ -80,10 +84,10 @@ code --install-extension claude-usage-monitor-1.0.0.vsix
 2. Copy the extension folder into VSCode's extensions directory:
    ```bash
    # Windows (PowerShell)
-   Copy-Item -Recurse . "$env:USERPROFILE\.vscode\extensions\local.claude-usage-monitor-1.0.0"
+   Copy-Item -Recurse . "$env:USERPROFILE\.vscode\extensions\local.claude-usage-monitor-1.0.2"
 
    # macOS / Linux
-   cp -r . ~/.vscode/extensions/local.claude-usage-monitor-1.0.0
+   cp -r . ~/.vscode/extensions/local.claude-usage-monitor-1.0.2
    ```
 3. Restart VSCode completely (close all windows, then reopen).
 

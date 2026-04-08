@@ -32,8 +32,6 @@ Reads your locally stored Claude Code OAuth token and calls the Anthropic usage 
 
 ## Interface
 
-![Status bar](statusbar.png)
-
 ### Colour coding
 
 | Colour | Utilisation |

@@ -1,27 +1,48 @@
 # Claude Code Usage Monitor
 
-VSCode extension that shows your Claude Code usage limits live in the status bar — both the 5-hour and 7-day rolling windows.
+See how much Claude Code usage you have left — directly in your VSCode status bar.
 
 ```
 🟢 5h ████░░░░ 42%  |  🟡 7d ██████░░ 68%
 ```
 
+Lightweight extension that shows your **5-hour** and **7-day** rolling usage windows in real time.
+
+---
+
+## Why this matters
+
+Claude Code usage limits are not visible during real work. This extension gives you a clear, always-on status so you can:
+
+- Avoid hitting limits mid-session
+- Plan longer coding tasks
+- Understand your real usage patterns
+- Use Pro / Max plans more efficiently
+
 ---
 
 ## What it does
 
-The extension reads your locally stored Claude Code OAuth token and calls the Anthropic API every 5 minutes (configurable) to fetch your current utilisation for both quota windows. The result is shown as a progress bar in the VSCode status bar at the bottom right.
+Reads your locally stored Claude Code OAuth token and calls the Anthropic usage API every 5 minutes (configurable) to fetch your current utilisation for both quota windows. The result is shown as a progress bar in the VSCode status bar at the bottom right.
 
 - **5-hour window** — short-term rolling limit (resets 5 h after your first message)
 - **7-day window** — weekly rolling limit (resets 7 days after your first message)
 
-Colour coding:
+---
+
+## Interface
+
+![Status bar](statusbar.png)
+
+### Colour coding
 
 | Colour | Utilisation |
 |--------|-------------|
 | 🟢 Green | < 50 % |
 | 🟡 Yellow | 50 – 79 % |
 | 🔴 Red | ≥ 80 % |
+
+### Interaction
 
 **Click** the status bar item → pick display mode (`5h only`, `7d only`, `both`)  
 **Hover** → detailed tooltip with exact percentages and reset countdown
@@ -66,7 +87,7 @@ Or via the VSCode UI: **Extensions → ··· → Install from VSIX…**
 ### Option C — build from source (requires Node.js ≥ 20)
 
 ```bash
-git clone <this-repo>
+git clone https://github.com/AndJae/claude-usage-monitor
 cd claude-usage
 npm install
 npm run compile
@@ -74,7 +95,7 @@ npx @vscode/vsce package --no-yarn
 code --install-extension claude-usage-monitor-1.0.3.vsix
 ```
 
-### Option D — manual folder install (Node.js 16 / no vsce)
+### Option D — manual folder install (no vsce)
 
 1. Install dependencies and compile:
    ```bash
@@ -116,6 +137,14 @@ Open the Command Palette (`Ctrl+Shift+P`) and type:
 
 ---
 
+## Privacy
+
+- Your OAuth token is read from a local file (or macOS Keychain) — it never leaves your machine directly
+- Usage data is fetched from `api.anthropic.com` using that token — this is the same API your Claude Code CLI uses
+- No analytics, no telemetry, no third-party services
+
+---
+
 ## Troubleshooting
 
 **Status bar shows "No token — run `claude auth login`"**  
@@ -132,3 +161,17 @@ Open the Command Palette (`Ctrl+Shift+P`) and type:
 
 **Extension does not appear after install**  
 → Make sure VSCode was fully restarted (all windows closed). Check **Help → Toggle Developer Tools → Console** for any loading errors.
+
+---
+
+## Limitations
+
+- Requires an active Claude Pro or Max subscription
+- Accuracy depends on what the Anthropic usage API reports
+- Not an official Claude / Anthropic integration
+
+---
+
+## License
+
+MIT
